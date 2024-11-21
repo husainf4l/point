@@ -120,6 +120,7 @@ class AddSalesPageState extends State<AddSalesPage> {
         userUid: userUid,
         imageUrl: imageUrl,
         isChecked: false,
+        currentPoints: pointBalance,
         checkedBy: "",
         updatedOn: DateTime.now(),
       );

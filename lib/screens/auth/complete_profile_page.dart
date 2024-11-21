@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:points/components/my_textfield.dart';
+import 'package:points/controllers/settings_controller.dart';
 
 class CompleteProfilePage extends StatelessWidget {
+  final SettingsController settingsController = Get.find<SettingsController>();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController walletNameController = TextEditingController();
   final TextEditingController walletNumberController = TextEditingController();
@@ -17,7 +19,7 @@ class CompleteProfilePage extends StatelessWidget {
     try {
       final String uid = FirebaseAuth.instance.currentUser!.uid;
 
-      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      FirebaseFirestore.instance.collection('users').doc(uid).set({
         'name': nameController.text,
         'email': FirebaseAuth.instance.currentUser!.email,
         'phone': phoneController.text.trim(),
@@ -30,7 +32,26 @@ class CompleteProfilePage extends StatelessWidget {
         'pointBalance': 20,
         'lastSeen': Timestamp.now(),
         'createdAt': Timestamp.now(),
-        "userUid": uid
+        "userUid": uid,
+      });
+
+      await FirebaseFirestore.instance.collection('transactions').add({
+        'refId': DateTime.now().millisecondsSinceEpoch,
+        'userName': nameController.text,
+        'points': 20,
+        'pointBalance': 0,
+        'createdOn': Timestamp.now(),
+        'type': 'SALES',
+        'posName': posNameController,
+        'notes': 'Opening Balance',
+        'walletName': walletNameController.text.trim(),
+        'walletNumber': walletNumberController.text.trim(),
+        'status': 'COMPLETED',
+        'userUid': uid,
+        'imageUrl': settingsController.settingsData['welcomesImageUrl'],
+        'isChecked': true,
+        'checkedBy': '',
+        'updatedOn': Timestamp.now(),
       });
 
       Get.toNamed('/home'); // Navigate to home page after saving

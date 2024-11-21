@@ -11,7 +11,7 @@ import 'package:points/screens/sales/sales_page.dart';
 class Homepage extends StatelessWidget {
   final List<Widget> _pages = [
     const AddSalesPage(),
-    RedeemPage(),
+    const RedeemPage(),
     const MainPage(),
     const HistoryPage(),
     const AboutUsPage(),

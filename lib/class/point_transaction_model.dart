@@ -3,7 +3,7 @@ class PointTransaction {
   final String userName;
   final double points;
   final double pointBalance;
-
+  final double currentPoints;
   final DateTime createdOn;
   final String type;
   final String posName;
@@ -18,6 +18,7 @@ class PointTransaction {
 
   PointTransaction({
     required this.refId,
+    required this.currentPoints,
     required this.userName,
     required this.points,
     required this.createdOn,
@@ -45,6 +46,7 @@ class PointTransaction {
       'posName': posName,
       'notes': notes,
       'status': status,
+      'currentPoints': currentPoints,
       'userUid': userUid,
       'imageUrl': imageUrl,
       'isChecked': isChecked,
@@ -60,6 +62,7 @@ class PointTransaction {
       notes: data['notes'] as String,
       userName: data['userName'] as String,
       points: (data['points'] as num).toDouble(),
+      currentPoints: (data['currentPoints'] as num).toDouble(),
       pointBalance: (data['pointBalance'] as num).toDouble(),
       createdOn: DateTime.parse(data['createdOn'] as String),
       type: data['type'] as String,

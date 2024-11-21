@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:points/controllers/local_notification.dart';
 import 'package:points/controllers/messaging_controller.dart';
+import 'package:points/controllers/settings_controller.dart';
 import 'package:points/controllers/theme_controller.dart';
 import 'package:points/screens/auth/auth_checker.dart';
 import 'package:points/screens/auth/complete_profile_page.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
         AndroidProvider.playIntegrity, // Use debug during development
   );
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(SettingsController());
 
   runApp(const MyApp());
 }

@@ -6,6 +6,7 @@ import 'package:points/components/app_bar_theme.dart';
 import 'package:points/components/wallet_info.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:points/controllers/settings_controller.dart';
 
 class RedeemPage extends StatefulWidget {
   const RedeemPage({super.key});
@@ -20,6 +21,7 @@ class _RedeemPageState extends State<RedeemPage> {
   final userData = Get.find<AuthController>().userData.value;
   bool isSubmitting = false;
   int _redeemPoints = 50;
+  final SettingsController settingsController = Get.find<SettingsController>();
 
   Future<void> submitRedeemPage() async {
     if (_formKey.currentState!.validate()) {
@@ -30,18 +32,18 @@ class _RedeemPageState extends State<RedeemPage> {
       try {
         // Create an instance of PointTransaction
         PointTransaction transaction = PointTransaction(
-          refId: DateTime.now().millisecondsSinceEpoch, // Unique ID
+          refId: DateTime.now().millisecondsSinceEpoch,
           userName: userData?['name'] ?? 'Unknown',
-          points: 0, // Deduct redeem points
+          points: 0,
           createdOn: DateTime.now(),
-          type: "redeem",
+          type: "REDEEM",
           pointBalance: (userData?['pointBalance'] ?? 0).toDouble(),
           posName: userData?['posName'] ?? 'Unknown',
-          status: "Under_process",
+          status: "UNDER_PROCESS",
           userUid: userData?['userUid'] ?? 'Unknown',
-          imageUrl:
-              "https://firebasestorage.googleapis.com/v0/b/pointsv1.appspot.com/o/profile%2Fnull%2Fdata%2Fuser%2F0%2Fcom.papayatrading.admin.adminpoints%2Fcache%2Fimage_picker7515151903961275661.jpg?alt=media&token=333a2c9b-6c42-4440-88d4-c39993fefc5e",
+          imageUrl: settingsController.settingsData['redeemImageUrl'],
           isChecked: false,
+          currentPoints: (userData?['pointBalance'] ?? 0).toDouble(),
           checkedBy: "",
           notes:
               "طلب صرف ${_redeemPoints.toString()} نقطة \n ${_notesController.text}",

@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:points/controllers/logger.dart';
 
 class MessagingController extends GetxController {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -23,7 +24,7 @@ class MessagingController extends GetxController {
 
   static Future<void> firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
-    LogPrinter.i("Background message received: ${message.notification?.title}");
+    logPrint.i("Background message received: ${message.notification?.title}");
     // Add additional logic here if needed
   }
 

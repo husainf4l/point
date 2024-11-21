@@ -7,6 +7,7 @@ import 'package:points/components/horizantal_brand.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:points/controllers/bottom_nav_controller.dart';
+import 'package:points/controllers/settings_controller.dart';
 import 'package:points/screens/blog/blog_details.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -18,6 +19,8 @@ class MainPage extends StatelessWidget {
     final userData = Get.find<AuthController>().userData.value;
     final blogsCollection = FirebaseFirestore.instance.collection('blogs');
     final navController = Get.find<BottomNavController>();
+    final SettingsController settingsController =
+        Get.find<SettingsController>();
 
     return Scaffold(
       appBar: MyCupertinoAppBar(
@@ -45,9 +48,13 @@ class MainPage extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20)),
               clipBehavior: Clip.hardEdge,
-              child: Image.asset(
-                'assets/images/profileBanner.jpg',
+              child: Image.network(
+                settingsController.settingsData['mainBanner'],
+                width: 60,
+                height: 60,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.image_not_supported),
               ),
             ),
             const SizedBox(height: 16),
