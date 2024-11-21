@@ -23,20 +23,57 @@ class AddSalesPageState extends State<AddSalesPage> {
   bool isUploading = false;
   final _notesController = TextEditingController();
 
-  /// Pick image from gallery
+  /// Pick image from camera or gallery
   Future<void> getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        Get.snackbar(
-          "خطأ",
-          "لم يتم تحديد أي صورة.",
-          snackPosition: SnackPosition.BOTTOM,
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('اختيار صورة'),
+          content: const Text('يرجى اختيار مصدر الصورة.'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context); // Close the dialog
+                final pickedFile =
+                    await picker.pickImage(source: ImageSource.camera);
+                setState(() {
+                  if (pickedFile != null) {
+                    _image = File(pickedFile.path);
+                  } else {
+                    Get.snackbar(
+                      "خطأ",
+                      "لم يتم التقاط أي صورة.",
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  }
+                });
+              },
+              child: const Text('الكاميرا'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context); // Close the dialog
+                final pickedFile =
+                    await picker.pickImage(source: ImageSource.gallery);
+                setState(() {
+                  if (pickedFile != null) {
+                    _image = File(pickedFile.path);
+                  } else {
+                    Get.snackbar(
+                      "خطأ",
+                      "لم يتم تحديد أي صورة.",
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  }
+                });
+              },
+              child: const Text('المعرض'),
+            ),
+          ],
         );
-      }
-    });
+      },
+    );
   }
 
   /// Upload the sale data to Firebase

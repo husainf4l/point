@@ -7,15 +7,14 @@ import 'package:points/screens/history/history_page.dart';
 import 'package:points/screens/mainPage/main_page.dart';
 import 'package:points/screens/redem/redem_page.dart';
 import 'package:points/screens/sales/sales_page.dart';
-import 'package:points/screens/testApi/test_api.dart';
 
 class Homepage extends StatelessWidget {
   final List<Widget> _pages = [
     const AddSalesPage(),
-    const RedeemPage(),
+    RedeemPage(),
     const MainPage(),
     const HistoryPage(),
-    TestApi(),
+    const AboutUsPage(),
   ];
 
   Homepage({super.key});

@@ -49,29 +49,25 @@ class HorizontalBrandScroller extends StatelessWidget {
       BuildContext context, String brandName, String imageUrl) {
     return GestureDetector(
       onTap: () {
-        // Navigate to the products page with the brandName
         Get.toNamed('/products', arguments: {'brandName': brandName});
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: imageUrl.isNotEmpty
-                  ? Image.network(
-                      imageUrl,
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Icon(Icons.broken_image),
-                    )
-                  : const Icon(Icons.image_not_supported),
-            ),
-            const SizedBox(height: 4),
-          ],
-        ),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: imageUrl.isNotEmpty
+                ? Image.network(
+                    imageUrl,
+                    height: 50,
+                    width: 150,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.broken_image),
+                  )
+                : const Icon(Icons.image_not_supported),
+          ),
+          const SizedBox(height: 4),
+        ],
       ),
     );
   }

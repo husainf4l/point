@@ -33,7 +33,7 @@ class CompleteProfilePage extends StatelessWidget {
         "userUid": uid
       });
 
-      Get.offAllNamed('/home'); // Navigate to home page after saving
+      Get.toNamed('/home'); // Navigate to home page after saving
     } catch (e) {
       Get.snackbar(
         "Error",

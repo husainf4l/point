@@ -21,6 +21,12 @@ class MessagingController extends GetxController {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
+  static Future<void> firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    LogPrinter.i("Background message received: ${message.notification?.title}");
+    // Add additional logic here if needed
+  }
+
   Future<void> initializeFirebaseMessaging() async {
     // Request notification permissions
     final notificationSettings = await _firebaseMessaging.requestPermission(

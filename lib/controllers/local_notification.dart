@@ -4,15 +4,31 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http; // For downloading image
+import 'package:http/http.dart' as http;
+import 'package:points/controllers/logger.dart'; // For downloading image
 
 // Initialize Flutter Local Notifications Plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+
 final FirebaseFirestore db = FirebaseFirestore.instance;
 
+Future<void> createNotificationChannel() async {
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // Channel ID
+    'High Importance Notifications', // Channel name
+    description:
+        'This channel is used for important notifications.', // Description
+    importance: Importance.high,
+  );
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+}
+
 Future<void> setupForegroundNotification() async {
-  // iOS Settings
   const DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(
     requestAlertPermission: true,
@@ -20,7 +36,6 @@ Future<void> setupForegroundNotification() async {
     requestSoundPermission: true,
   );
 
-  // Initialization Settings
   const InitializationSettings initializationSettings = InitializationSettings(
     iOS: initializationSettingsDarwin,
   );
@@ -34,8 +49,6 @@ Future<void> setupForegroundNotification() async {
 
     if (notification != null) {
       String? imageUrl = message.data['image'];
-      print("Image URL: $imageUrl");
-      print("Message Data: ${message.data}");
 
       if (imageUrl != null) {
         // Show notification with an image
@@ -48,6 +61,14 @@ Future<void> setupForegroundNotification() async {
           notification.body,
           const NotificationDetails(
             iOS: DarwinNotificationDetails(),
+            android: AndroidNotificationDetails(
+              'high_importance_channel',
+              'High Importance Notifications',
+              channelDescription:
+                  'This channel is used for important notifications.',
+              importance: Importance.high,
+              priority: Priority.high,
+            ),
           ),
         );
       }
@@ -107,7 +128,7 @@ void _showNotificationWithImage(
       );
     }
   } catch (e) {
-    print("Error showing notification with image: $e");
+    logPrint.e("Error showing notification with image: $e");
   }
 }
 
@@ -125,11 +146,11 @@ Future<String?> _downloadImage(String imageUrl) async {
       await file.writeAsBytes(response.bodyBytes);
       return filePath;
     } else {
-      print("Failed to download image: ${response.statusCode}");
+      logPrint.i("Failed to download image: ${response.statusCode}");
       return null;
     }
   } catch (e) {
-    print("Error downloading image: $e");
+    logPrint.e("Error downloading image: $e");
     return null;
   }
 }

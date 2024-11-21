@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:points/controllers/logger.dart';
 
 class TestApi extends StatefulWidget {
+  const TestApi({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _TestApiState createState() => _TestApiState();
 }
 
@@ -29,13 +33,13 @@ class _TestApiState extends State<TestApi> {
           isLoading = false;
         });
       } else {
-        print('Failed to load products: ${response.statusCode}');
+        logPrint.i('Failed to load products: ${response.statusCode}');
         setState(() {
           isLoading = false;
         });
       }
     } catch (e) {
-      print('Error occurred: $e');
+      logPrint.e('Error occurred: $e');
       setState(() {
         isLoading = false;
       });
@@ -46,18 +50,18 @@ class _TestApiState extends State<TestApi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Testing Api from the nest server '),
+        title: const Text('Testing Api from the nest server '),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : products.isEmpty
-              ? Center(child: Text('No products available'))
+              ? const Center(child: Text('No products available'))
               : ListView.builder(
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     final product = products[index];
                     return Card(
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       child: ListTile(
                         leading: Image.network(
                           product['image'],
@@ -65,7 +69,7 @@ class _TestApiState extends State<TestApi> {
                           height: 50,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
-                            return Icon(Icons.broken_image, size: 50);
+                            return const Icon(Icons.broken_image, size: 50);
                           },
                         ),
                         title: Text(product['name']),

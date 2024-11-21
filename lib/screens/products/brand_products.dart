@@ -10,20 +10,34 @@ class BrandProductsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String brandName = Get.arguments['brandName'];
+    final String? brandName = Get.arguments?['brandName'];
+    if (brandName == null) {
+      return Scaffold(
+        appBar: MyCupertinoAppBar(
+          title: const Text('Brand Products'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            color: Colors.black,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        body: const Center(
+          child: Text('Brand name is not specified.'),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: MyCupertinoAppBar(
         title: Image.asset(
-          'assets/images/mainLogo.png', // Path to your logo image
-          height: 32, // Adjust as per your logo's dimensions
+          'assets/images/mainLogo.png',
+          height: 32,
           fit: BoxFit.contain,
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios), // Back arrow icon
-          color: Colors.black, // Customize the color as needed
-          onPressed: () {
-            Navigator.of(context).pop(); // Navigate back to the previous screen
-          },
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: FutureBuilder<List<Product>>(
@@ -43,7 +57,8 @@ class BrandProductsPage extends StatelessWidget {
 
           if (products == null || products.isEmpty) {
             return const Center(
-                child: Text('No products found for this brand.'));
+              child: Text('No products found for this brand.'),
+            );
           }
 
           return ListView.builder(
@@ -62,16 +77,20 @@ class BrandProductsPage extends StatelessWidget {
                     errorBuilder: (context, error, stackTrace) =>
                         const Icon(Icons.image_not_supported),
                   ),
-                  title: Text(product.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  title: Text(
+                    product.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   subtitle: Text(
                     'Price: ${product.price.toStringAsFixed(2)} JD',
                     style: const TextStyle(color: Colors.grey),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                    Get.toNamed('/productDetails',
-                        arguments: {'productId': product.id});
+                    Get.toNamed(
+                      '/productDetails',
+                      arguments: {'productId': product.id},
+                    );
                   },
                 ),
               );

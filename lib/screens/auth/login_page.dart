@@ -5,6 +5,7 @@ import 'package:points/components/my_button.dart';
 import 'package:points/components/my_textfield.dart';
 import 'package:points/components/square_tile.dart';
 import 'package:points/controllers/auth_controller.dart';
+import 'dart:io';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -148,16 +149,20 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SquareTile(
-                            onTap: () {
-                              authController.signInWithGoogle();
-                            },
-                            imagePath: 'assets/images/google.png'),
+                          onTap: () {
+                            authController.signInWithGoogle();
+                          },
+                          imagePath: 'assets/images/google.png',
+                        ),
                         const SizedBox(width: 20),
-                        SquareTile(
+                        if (!Platform
+                            .isAndroid) // Show Apple login only if it's not Android
+                          SquareTile(
                             onTap: () {
-                              authController.logout();
+                              authController.signInWithApple();
                             },
-                            imagePath: 'assets/images/apple.png'),
+                            imagePath: 'assets/images/apple.png',
+                          ),
                       ],
                     ),
 

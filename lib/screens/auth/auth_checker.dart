@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:points/controllers/auth_controller.dart';
+import 'package:points/controllers/check_update.dart';
 
 class AuthChecker extends StatelessWidget {
   const AuthChecker({super.key});
@@ -21,8 +22,7 @@ class AuthChecker extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              return const SizedBox
-                  .shrink(); // Placeholder widget, navigation is handled by Get
+              return const SizedBox.shrink(); // Placeholder widget
             }
           },
         ),
@@ -36,26 +36,30 @@ class AuthChecker extends StatelessWidget {
 
     final User? firebaseUser = auth.currentUser;
 
-    if (firebaseUser != null) {
-      // User is logged in, fetch user data
-      final String uid = firebaseUser.uid;
+    // Delay navigation until the build process is complete
+    Future.microtask(() async {
+      if (firebaseUser != null) {
+        // User is logged in, fetch user data
+        final String uid = firebaseUser.uid;
 
-      final DocumentSnapshot<Map<String, dynamic>> userDoc =
-          await db.collection('users').doc(uid).get();
+        final DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await db.collection('users').doc(uid).get();
 
-      if (userDoc.exists) {
-        // Save user data in AuthController
-        authController.userData.value = {"id": uid, ...userDoc.data()!};
+        if (userDoc.exists) {
+          // Save user data in AuthController
+          authController.userData.value = {"id": uid, ...userDoc.data()!};
 
-        // Navigate to home page
-        Get.offAllNamed('/home');
+          // Navigate to home page
+          Get.offAllNamed('/home');
+          VersionController().checkForUpdates();
+        } else {
+          // Navigate to complete profile page
+          Get.offAllNamed('/completeProfile');
+        }
       } else {
-        // Navigate to complete profile page
-        Get.offAllNamed('/completeProfile');
+        // User is not logged in, navigate to login page
+        Get.offAllNamed('/auth');
       }
-    } else {
-      // User is not logged in, navigate to login page
-      Get.offAllNamed('/auth');
-    }
+    });
   }
 }

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:points/controllers/logger.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -72,9 +74,9 @@ class AuthController extends GetxController {
       if (userDoc.exists) {
         userData.value = userDoc.data()!;
         await saveTokens(); // Save FCM and APNs tokens after login
-        Get.offAllNamed('/home');
+        Get.toNamed('/home');
       } else {
-        Get.offAllNamed('/completeProfile');
+        Get.toNamed('/completeProfile');
       }
     } catch (e) {
       Get.snackbar(
@@ -112,9 +114,9 @@ class AuthController extends GetxController {
       if (userDoc.exists) {
         userData.value = userDoc.data()!;
         await saveTokens(); // Save FCM and APNs tokens after Google sign-in
-        Get.offAllNamed('/home');
+        Get.toNamed('/home');
       } else {
-        Get.offAllNamed('/completeProfile');
+        Get.toNamed('/completeProfile');
       }
     } catch (e) {
       Get.snackbar(
@@ -142,7 +144,7 @@ class AuthController extends GetxController {
       final String uid = _auth.currentUser!.uid;
       await db.collection('users').doc(uid).delete();
       await _auth.currentUser!.delete();
-      Get.offAllNamed('/auth');
+      Get.toNamed('/auth');
       Get.snackbar("Account Deleted", "Your account has been deleted.",
           snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
@@ -152,6 +154,46 @@ class AuthController extends GetxController {
 
   Future<void> logout() async {
     await _auth.signOut();
-    Get.offAllNamed('/auth');
+    Get.toNamed('/auth');
+  }
+
+  Future<void> signInWithApple() async {
+    try {
+      // Request an Apple ID credential
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      // Create an OAuth credential for Firebase
+      final OAuthCredential credential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      // Use the credential to sign in to Firebase
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Optionally fetch user data from Firestore or update as needed
+      final String uid = userCredential.user!.uid;
+      final DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await db.collection('users').doc(uid).get();
+
+      if (userDoc.exists) {
+        userData.value = userDoc.data()!;
+        await saveTokens();
+        Get.toNamed('/home');
+      } else {
+        Get.toNamed('/completeProfile');
+      }
+    } catch (e) {
+      logPrint.e(
+        "Error during Apple Sign-In",
+        error: e,
+      );
+    }
   }
 }

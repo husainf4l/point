@@ -27,13 +27,9 @@ class ProductDetailsPage extends StatelessWidget {
           fit: BoxFit.contain,
         ),
         leading: IconButton(
-          icon: const Icon(
-            CupertinoIcons.profile_circled,
-            color: CupertinoColors.black,
-          ),
-          onPressed: () {
-            Get.toNamed('/profile');
-          },
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(

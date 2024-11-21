@@ -1,3 +1,5 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,12 +26,23 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Get.put(AuthController());
+
+  Get.put(AuthController(), permanent: true);
+  Get.put(ThemeController(), permanent: true);
   await GetStorage.init();
   Get.put(MessagingController());
   setupForegroundNotification();
-  Get.put(ThemeController());
+  await createNotificationChannel();
+
+  FirebaseMessaging.onBackgroundMessage(
+      MessagingController.firebaseMessagingBackgroundHandler);
+
   Get.lazyPut<NotificationController>(() => NotificationController());
+  await FirebaseAppCheck.instance.activate(
+    androidProvider:
+        AndroidProvider.playIntegrity, // Use debug during development
+  );
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MyApp());
 }

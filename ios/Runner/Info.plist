@@ -91,6 +91,11 @@
 	<true/>
 	<key>com.apple.security.network.client</key>
 <true/>
+<key>NSAppleMusicUsageDescription</key>
+<string>We need access to your Apple ID to authenticate you.</string>
+<key>NSFaceIDUsageDescription</key>
+<string>We use Face ID to authenticate your Apple Sign-In.</string>
+
 
 </dict>
 </plist>
