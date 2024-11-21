@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "199629108280",
+    "project_id": "points-jordan",
+    "storage_bucket": "points-jordan.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199629108280:android:343ee6b1c5effc304622cd",
+        "android_client_info": {
+          "package_name": "com.papayatrading.points"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199629108280-1cggstk2105b59h5tktuofmbersc4mj1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_JWO_J9hn0yZdNKCLlyEVox883a2dxjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199629108280-1cggstk2105b59h5tktuofmbersc4mj1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199629108280-93udqabvm3ch0srhjpgqr8mde5sq544h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.points"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

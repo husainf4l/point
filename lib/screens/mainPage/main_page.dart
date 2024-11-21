@@ -1,0 +1,282 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:points/class/blog_model.dart';
+import 'package:points/components/app_bar_theme.dart';
+import 'package:points/components/blog_card_small.dart';
+import 'package:points/components/horizantal_brand.dart';
+import 'package:points/controllers/auth_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:points/controllers/bottom_nav_controller.dart';
+import 'package:points/screens/blog/blog_details.dart';
+import 'package:flutter/cupertino.dart';
+
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final userData = Get.find<AuthController>().userData.value;
+    final blogsCollection = FirebaseFirestore.instance.collection('blogs');
+    final navController = Get.find<BottomNavController>();
+
+    return Scaffold(
+      appBar: MyCupertinoAppBar(
+        title: Image.asset(
+          'assets/images/mainLogo.png', // Path to your logo image
+          height: 32, // Adjust as per your logo's dimensions
+          fit: BoxFit.contain,
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            CupertinoIcons.profile_circled,
+            color: CupertinoColors.black,
+          ),
+          onPressed: () {
+            Get.toNamed('/profile');
+          },
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+        child: Column(
+          children: [
+            // Profile Banner
+            Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+              clipBehavior: Clip.hardEdge,
+              child: Image.asset(
+                'assets/images/profileBanner.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Points Section
+            Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Colors.teal, Color.fromARGB(255, 88, 223, 191)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Left Section
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "النقاط الحالية",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              const Icon(Icons.scatter_plot,
+                                  color: Colors.white, size: 20),
+                              const SizedBox(width: 8),
+                              Text(
+                                '${userData?['pointBalance']}',
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Icon(Icons.scatter_plot,
+                                  color: Colors.white, size: 20),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Right Section
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              navController
+                                  .changeIndex(1); // Navigate to "About Us"
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.teal,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                            ),
+                            child: const Text("صرف النقاط"),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "${userData?['pointBalance'] / 10} JOD",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "حسب العلامو التجارية",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed('/products');
+                    },
+                    child: const Row(
+                      children: [
+                        Text('جميع الاصناف'),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Icon(Icons.align_vertical_center_rounded),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
+            const HorizontalBrandScroller(),
+            const SizedBox(height: 16),
+
+            // Latest Blog Section
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "أحدث الإعلانات",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed('blogs');
+                    },
+                    child: const Row(
+                      children: [
+                        Text('المزيد'),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Icon(Icons.align_vertical_center_rounded),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 8),
+            StreamBuilder<QuerySnapshot>(
+              stream: blogsCollection
+                  .orderBy('createdAt', descending: true)
+                  .limit(3) // Fetch the last 3 blogs
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "لا توجد مدونات متوفرة حالياً.",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
+                }
+
+                final blogDocs = snapshot.data!.docs;
+
+                return Column(
+                  children: blogDocs.map((doc) {
+                    final blogData = doc.data() as Map<String, dynamic>;
+
+                    // Map Firestore data to the Blog model
+                    final blog = Blog(
+                      title: blogData['title'] ?? 'Untitled',
+                      description: blogData['description'] ?? 'No description',
+                      image: blogData['image'] ?? '',
+                      sections: (blogData['sections'] as List<dynamic>?)
+                              ?.map((section) => BlogSection(
+                                    heading: section['heading'] ?? '',
+                                    content: section['content'] ?? '',
+                                    bulletPoints: (section['bulletPoints']
+                                            as List<dynamic>?)
+                                        ?.cast<String>(),
+                                  ))
+                              .toList() ??
+                          [],
+                    );
+
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to BlogDetailsPage with the blog model
+                        Get.to(() => BlogDetailsPage(blog: blog));
+                      },
+                      child: BlogCardSmall(
+                        title: blog.title,
+                        description: blog.description,
+                        imageUrl: blog.image,
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
