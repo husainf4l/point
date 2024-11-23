@@ -71,11 +71,12 @@ class ProductService {
     }
   }
 
-  Future<List<Product>> fetchProductsByBrand(String brandName) async {
+  Future<List<Product>> fetchProductsBykeyWord(String keyWord) async {
     try {
       final List<Product> allProducts = await fetchProducts();
       return allProducts
-          .where((product) => product.brand == brandName)
+          .where((product) =>
+              product.keyWord.toLowerCase().contains(keyWord.toLowerCase()))
           .toList();
     } catch (e) {
       return [];

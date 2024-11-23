@@ -41,7 +41,7 @@ class BrandProductsPage extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<List<Product>>(
-        future: productService.fetchProductsByBrand(brandName),
+        future: productService.fetchProductsBykeyWord(brandName),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

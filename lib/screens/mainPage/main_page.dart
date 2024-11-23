@@ -50,8 +50,6 @@ class MainPage extends StatelessWidget {
               clipBehavior: Clip.hardEdge,
               child: Image.network(
                 settingsController.settingsData['mainBanner'],
-                width: 60,
-                height: 60,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) =>
                     const Icon(Icons.image_not_supported),
@@ -169,7 +167,7 @@ class MainPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed('/products');
+                      Get.toNamed('/products', arguments: {'brandName': ''});
                     },
                     child: const Row(
                       children: [
