@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:points/components/app_bar_theme.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:points/controllers/notification_q.dart';
-import 'package:flutter/cupertino.dart';
 
 class NotificationsPage extends StatelessWidget {
   final NotificationController _notificationController =
