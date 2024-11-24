@@ -96,7 +96,7 @@ class LoginPage extends StatelessWidget {
                                   Get.snackbar(
                                     "Forgot Password",
                                     "Feature not implemented yet.",
-                                    snackPosition: SnackPosition.BOTTOM,
+                                    snackPosition: SnackPosition.TOP,
                                   );
                                 },
                                 child: const Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:points/components/app_bar_theme.dart';
+import 'package:points/components/my_button.dart';
 import 'package:points/components/my_textfield.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:points/controllers/messaging_controller.dart';
@@ -44,16 +45,6 @@ class Profile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              clipBehavior: Clip.hardEdge,
-              child: Image.asset(
-                'assets/images/profileBanner.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -69,10 +60,9 @@ class Profile extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               "الملف الشخصي",
-              style: Theme.of(context).textTheme.headlineMedium,
-              textDirection: TextDirection.rtl,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
             ),
             const SizedBox(height: 8),
             Obx(() {
@@ -97,21 +87,21 @@ class Profile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
+                        MyButton(
+                          onTap: () {
                             isEditing.value = true;
                           },
-                          child: const Text("تعديل"),
+                          title: "تعديل",
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(),
-                          onPressed: () {
+                        MyButton(
+                          color: Colors.red,
+                          onTap: () {
                             AuthController().logout();
                           },
-                          child: const Text("تسجيل خروج"),
+                          title: "تسجيل خروج",
                         ),
                       ],
                     )
@@ -119,8 +109,8 @@ class Profile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
+                        MyButton(
+                          onTap: () {
                             isEditing.value = false;
                             authController.updateUserData({
                               'name': nameController.text.trim(),
@@ -132,28 +122,24 @@ class Profile extends StatelessWidget {
                               },
                             });
                           },
-                          child: const Text("حفظ"),
+                          title: "حفظ",
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                          ),
-                          onPressed: () {
+                        MyButton(
+                          color: Colors.red,
+                          onTap: () {
                             isEditing.value = false;
                           },
-                          child: const Text("إلغاء"),
+                          title: "إلغاء",
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                          ),
-                          onPressed: () {
+                        MyButton(
+                          color: Colors.red,
+                          onTap: () {
                             _showDeleteAccountDialog(context);
                           },
-                          child: const Text("حذف الحساب"),
+                          title: "حذف الحساب",
                         ),
                       ],
                     ),
@@ -208,6 +194,7 @@ class Profile extends StatelessWidget {
     final TextEditingController confirmNameController = TextEditingController();
 
     Get.defaultDialog(
+      buttonColor: Colors.red,
       title: "تأكيد الحذف",
       middleText:
           "يرجى إدخال اسمك لتأكيد حذف الحساب. لا يمكن التراجع عن هذا الإجراء.",
@@ -216,7 +203,6 @@ class Profile extends StatelessWidget {
           const SizedBox(height: 10),
           TextField(
             controller: confirmNameController,
-            textDirection: TextDirection.rtl,
             decoration: const InputDecoration(
               labelText: "أدخل اسمك",
               border: OutlineInputBorder(),
@@ -231,10 +217,10 @@ class Profile extends StatelessWidget {
         if (confirmNameController.text.trim() ==
             authController.userData.value?['name']) {
           authController.deleteAccount();
-          Get.back(); // Close the dialog
+          Get.offAllNamed('/login');
         } else {
           Get.snackbar("خطأ", "الاسم لا يطابق. حاول مرة أخرى.",
-              snackPosition: SnackPosition.BOTTOM);
+              snackPosition: SnackPosition.TOP);
         }
       },
     );

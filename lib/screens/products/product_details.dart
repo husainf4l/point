@@ -82,11 +82,11 @@ class ProductDetailsPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8.0),
-
+//البراند:   وصف المنتج:  مميزات المنتج:    كيفية الاستخدام:    متى يستخدم:
                       // Product Brand
                       if (productData['brand'] != null)
                         Text(
-                          'Brand: ${productData['brand']}',
+                          'البراند: ${productData['brand']}',
                           style: const TextStyle(
                             fontSize: 16.0,
                             color: Colors.grey,
@@ -100,7 +100,7 @@ class ProductDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Description:',
+                              'وصف المنتج:',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
@@ -124,7 +124,7 @@ class ProductDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Features:',
+                              'مميزات المنتج:',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
@@ -148,7 +148,7 @@ class ProductDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'How to Use:',
+                              'كيفية الاستخدام',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
@@ -172,7 +172,7 @@ class ProductDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'When to Use:',
+                              'متى يستخدم:',
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,

@@ -66,62 +66,62 @@ class AppThemes {
 
   /// Dark Theme
   static final ThemeData darkTheme = ThemeData(
-    colorScheme: const ColorScheme(
-      primary: AppColors.darkPrimary,
-      primaryContainer: AppColors.darkPrimaryContainer,
-      secondary: AppColors.darkSecondary,
-      surface: AppColors.darkSurface,
-      error: AppColors.darkError,
-      onPrimary: AppColors.darkOnPrimary,
-      onSecondary: AppColors.darkOnSecondary,
-      onSurface: AppColors.darkOnSurface,
-      onError: AppColors.darkOnError,
-      brightness: Brightness.dark,
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.darkPrimary,
-      elevation: 0,
-      iconTheme: const IconThemeData(color: AppColors.darkOnPrimary),
-      titleTextStyle: GoogleFonts.cairo(
-        color: AppColors.darkOnPrimary,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
+      colorScheme: const ColorScheme(
+        primary: AppColors.darkPrimary,
+        primaryContainer: AppColors.darkPrimaryContainer,
+        secondary: AppColors.darkSecondary,
+        surface: AppColors.darkSurface,
+        error: AppColors.darkError,
+        onPrimary: AppColors.darkOnPrimary,
+        onSecondary: AppColors.darkOnSecondary,
+        onSurface: AppColors.darkOnSurface,
+        onError: AppColors.darkOnError,
+        brightness: Brightness.dark,
       ),
-    ),
-    textTheme: TextTheme(
-      displayLarge: GoogleFonts.cairo(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: AppColors.darkOnBackground,
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.darkPrimary,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: AppColors.darkOnPrimary),
+        titleTextStyle: GoogleFonts.cairo(
+          color: AppColors.darkOnPrimary,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-      bodyLarge: GoogleFonts.cairo(
-        fontSize: 16,
-        color: AppColors.darkOnBackground,
+      textTheme: TextTheme(
+        displayLarge: GoogleFonts.cairo(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: AppColors.darkOnBackground,
+        ),
+        bodyLarge: GoogleFonts.cairo(
+          fontSize: 16,
+          color: AppColors.darkOnBackground,
+        ),
+        bodyMedium: GoogleFonts.cairo(
+          fontSize: 14,
+          color: AppColors.darkOnSurface,
+        ),
+        bodySmall: GoogleFonts.cairo(
+          fontSize: 12,
+          color: AppColors.darkOnSurface,
+        ),
       ),
-      bodyMedium: GoogleFonts.cairo(
-        fontSize: 14,
-        color: AppColors.darkOnSurface,
+      buttonTheme: const ButtonThemeData(
+        buttonColor: AppColors.darkPrimary,
+        textTheme: ButtonTextTheme.primary,
       ),
-      bodySmall: GoogleFonts.cairo(
-        fontSize: 12,
-        color: AppColors.darkOnSurface,
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.darkSurface,
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColors.darkPrimary),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColors.darkPrimaryContainer),
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
-    ),
-    buttonTheme: const ButtonThemeData(
-      buttonColor: AppColors.darkPrimary,
-      textTheme: ButtonTextTheme.primary,
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.darkSurface,
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.darkPrimary),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.darkPrimaryContainer),
-        borderRadius: BorderRadius.circular(8),
-      ),
-    ),
-  );
+      snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.white));
 }

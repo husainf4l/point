@@ -100,26 +100,34 @@ class _HistoryPageState extends State<HistoryPage> {
 
                   return Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("${sale['type']} \n$formattedDate "),
-                            Text(
-                                '${sale['notes']} \n${sale['points'].toString()} نقطة'),
-                            IconButton(
-                                onPressed: () {
-                                  var saleId = salesDocs[index]
-                                      .id; // Navigate to SaleDetailsPage with saleId
-                                  Get.to(() => SaleDetailsPage(saleId: saleId));
-                                },
-                                icon: const Icon(Icons.info_outline))
-                          ],
+                    child: GestureDetector(
+                      onTap: () {
+                        var saleId = salesDocs[index].id; // Get the sale ID
+                        Get.to(() => SaleDetailsPage(
+                            saleId:
+                                saleId)); // Navigate to SaleDetailsPage with saleId
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("${sale['type']} \n$formattedDate "),
+                              Text(
+                                '${sale['notes']} \n${sale['points'].toString()} نقطة',
+                              ),
+                              Icon(
+                                sale['status'] == 'COMPLETED'
+                                    ? Icons.check_box
+                                    : Icons.check_box_outline_blank,
+                                color: Colors.teal,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

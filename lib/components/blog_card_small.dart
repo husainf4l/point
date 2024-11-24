@@ -16,7 +16,7 @@ class BlogCardSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 4,
         child: SizedBox(
@@ -63,7 +63,6 @@ class BlogCardSmall extends StatelessWidget {
                         description,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontSize: 14,
-                              color: Colors.grey[700],
                             ),
                         maxLines: 2, // Short description
                         overflow: TextOverflow.ellipsis,

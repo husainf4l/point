@@ -15,7 +15,7 @@ class AuthChecker extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-          future: _checkAuth(authController), // Perform authentication check
+          future: _checkAuth(authController),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator(); // Show loading spinner
@@ -39,17 +39,13 @@ class AuthChecker extends StatelessWidget {
     // Delay navigation until the build process is complete
     Future.microtask(() async {
       if (firebaseUser != null) {
-        // User is logged in, fetch user data
         final String uid = firebaseUser.uid;
 
         final DocumentSnapshot<Map<String, dynamic>> userDoc =
             await db.collection('users').doc(uid).get();
 
         if (userDoc.exists) {
-          // Save user data in AuthController
           authController.userData.value = {"id": uid, ...userDoc.data()!};
-
-          // Navigate to home page
           Get.offAllNamed('/home');
           VersionController().checkForUpdates();
         } else {

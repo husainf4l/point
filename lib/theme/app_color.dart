@@ -36,8 +36,6 @@ class AppColors {
   static const Color accentGreen =
       Color(0xFF00C853); // Vibrant Green for Success
   static const Color accentBlue = Color(0xFF42A5F5); // Bright Blue for Info
-  static const Color accentYellow =
-      Color(0xFFFFEB3B); // Warm Yellow for Warnings
-  static const Color accentOrange =
-      Color(0xFFFF7043); // Soft Orange for Highlights
+  static const Color accentYellow = Colors.red;
+  static const Color accentOrange = Colors.red;
 }

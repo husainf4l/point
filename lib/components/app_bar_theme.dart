@@ -33,7 +33,7 @@ class MyCupertinoAppBar extends StatelessWidget implements PreferredSizeWidget {
             IconButton(
               icon: const Icon(
                 CupertinoIcons.back,
-                color: CupertinoColors.activeBlue,
+                color: CupertinoColors.black,
               ),
               onPressed: () {
                 Navigator.of(context).pop();

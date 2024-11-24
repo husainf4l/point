@@ -46,98 +46,91 @@ class SaleDetailsPage extends StatelessWidget {
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: ListView(
-                padding: const EdgeInsets.all(16.0),
-                children: [
-                  // Title
-                  const Center(
-                    child: Text(
-                      'تفاصيل المعاملة',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+            child: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                // Title
+                const Center(
+                  child: Text(
+                    'تفاصيل المعاملة',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const Divider(),
+
+                // Transaction Information
+                _buildDetailRow(
+                    'نوع المعاملة', transactionData['type'] ?? 'غير متوفر'),
+                _buildDetailRow(
+                    'رقم المرجع', transactionData['refId'].toString()),
+                _buildDetailRow(
+                    'الحالة', transactionData['status'] ?? 'غير متوفر'),
+                _buildDetailRow('النقاط', transactionData['points'].toString()),
+                _buildDetailRow(
+                    'رصيد النقاط', transactionData['pointBalance'].toString()),
+
+                // Notes
+                _buildDetailRow(
+                    'الملاحظات', transactionData['userNotes'] ?? 'غير متوفر'),
+
+                // Dates
+                _buildDetailRow(
+                  'تاريخ الإنشاء',
+                  createdOn != null
+                      ? DateFormat('yyyy-MM-dd HH:mm:ss').format(createdOn)
+                      : 'غير متوفر',
+                ),
+                _buildDetailRow(
+                  'آخر تحديث',
+                  updatedOn != null
+                      ? DateFormat('yyyy-MM-dd HH:mm:ss').format(updatedOn)
+                      : 'غير متوفر',
+                ),
+                _buildDetailRow(
+                  'تمت المراجعة',
+                  transactionData['isChecked'] ? 'نعم' : 'لا',
+                ),
+
+                // Image
+                if (transactionData['imageUrl'] != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      const Text(
+                        'الصورة',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                  ),
-                  const Divider(),
-
-                  // Transaction Information
-                  _buildDetailRow(
-                      'نوع المعاملة', transactionData['type'] ?? 'غير متوفر'),
-                  _buildDetailRow(
-                      'رقم المرجع', transactionData['refId'].toString()),
-                  _buildDetailRow(
-                      'الحالة', transactionData['status'] ?? 'غير متوفر'),
-                  _buildDetailRow(
-                      'النقاط', transactionData['points'].toString()),
-                  _buildDetailRow('رصيد النقاط',
-                      transactionData['pointBalance'].toString()),
-
-                  // Notes
-                  _buildDetailRow(
-                      'الملاحظات', transactionData['notes'] ?? 'غير متوفر'),
-
-                  // Dates
-                  _buildDetailRow(
-                    'تاريخ الإنشاء',
-                    createdOn != null
-                        ? DateFormat('yyyy-MM-dd HH:mm:ss').format(createdOn)
-                        : 'غير متوفر',
-                  ),
-                  _buildDetailRow(
-                    'آخر تحديث',
-                    updatedOn != null
-                        ? DateFormat('yyyy-MM-dd HH:mm:ss').format(updatedOn)
-                        : 'غير متوفر',
-                  ),
-                  _buildDetailRow(
-                    'تمت المراجعة',
-                    transactionData['isChecked'] ? 'نعم' : 'لا',
-                  ),
-
-                  // Image
-                  if (transactionData['imageUrl'] != null)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 16),
-                        const Text(
-                          'الصورة',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                      const SizedBox(height: 8),
+                      Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            transactionData['imageUrl'],
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Text(
+                                'فشل تحميل الصورة',
+                              );
+                            },
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              transactionData['imageUrl'],
-                              fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Text(
-                                  'فشل تحميل الصورة',
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+              ],
             ),
           );
         },

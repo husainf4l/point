@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:points/components/app_bar_theme.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:points/controllers/notification_q.dart';
+import 'package:flutter/cupertino.dart';
 
 class NotificationsPage extends StatelessWidget {
   final NotificationController _notificationController =
@@ -14,16 +16,12 @@ class NotificationsPage extends StatelessWidget {
     final AuthController authController = Get.find<AuthController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Notifications"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: () {
-              _notificationController.markAllAsRead();
-            },
-          ),
-        ],
+      appBar: MyCupertinoAppBar(
+        title: Image.asset(
+          'assets/images/mainLogo.png',
+          height: 32,
+          fit: BoxFit.contain,
+        ),
       ),
       body: Obx(() {
         if (authController.userData.value == null) {

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:points/class/point_transaction_model.dart';
 import 'package:points/components/app_bar_theme.dart';
+import 'package:points/components/my_button.dart';
 import 'package:points/components/wallet_info.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,8 +46,8 @@ class _RedeemPageState extends State<RedeemPage> {
           isChecked: false,
           currentPoints: (userData?['pointBalance'] ?? 0).toDouble(),
           checkedBy: "",
-          notes:
-              "طلب صرف ${_redeemPoints.toString()} نقطة \n ${_notesController.text}",
+          userNotes: _notesController.text,
+          notes: "طلب صرف ${_redeemPoints.toString()} نقطة ",
           updatedOn: DateTime.now(),
         );
 
@@ -72,7 +73,7 @@ class _RedeemPageState extends State<RedeemPage> {
         Get.snackbar(
           'خطأ',
           'حدث خطأ أثناء إرسال طلب الاستبدال. حاول مرة أخرى.',
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
         );
       }
     }
@@ -203,17 +204,9 @@ class _RedeemPageState extends State<RedeemPage> {
               if (isSubmitting)
                 const Center(child: CircularProgressIndicator())
               else
-                ElevatedButton(
-                  onPressed: availablePoints < 50 ? null : submitRedeemPage,
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50.0),
-                    backgroundColor:
-                        availablePoints < 50 ? Colors.grey : Colors.teal,
-                  ),
-                  child: const Text(
-                    "تاكيد الطلب",
-                    style: TextStyle(fontSize: 16),
-                  ),
+                MyButton(
+                  onTap: availablePoints < 50 ? null : submitRedeemPage,
+                  title: "تاكيد الطلب",
                 ),
             ],
           ),

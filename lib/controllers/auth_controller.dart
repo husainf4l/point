@@ -82,7 +82,7 @@ class AuthController extends GetxController {
       Get.snackbar(
         "Login Failed",
         e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     } finally {
       isLoading.value = false;
@@ -122,7 +122,7 @@ class AuthController extends GetxController {
       Get.snackbar(
         "Sign-In Failed",
         e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
   }
@@ -133,9 +133,9 @@ class AuthController extends GetxController {
       await db.collection('users').doc(uid).update(updatedData);
       userData.value = updatedData;
       Get.snackbar("Success", "Profile updated successfully.",
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.TOP);
     } catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.TOP);
     }
   }
 
@@ -146,9 +146,9 @@ class AuthController extends GetxController {
       await _auth.currentUser!.delete();
       Get.toNamed('/auth');
       Get.snackbar("Account Deleted", "Your account has been deleted.",
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.TOP);
     } catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.TOP);
     }
   }
 

@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:points/class/point_transaction_model.dart';
 import 'package:points/components/app_bar_theme.dart';
+import 'package:points/components/my_button.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -44,7 +45,7 @@ class AddSalesPageState extends State<AddSalesPage> {
                     Get.snackbar(
                       "خطأ",
                       "لم يتم التقاط أي صورة.",
-                      snackPosition: SnackPosition.BOTTOM,
+                      snackPosition: SnackPosition.TOP,
                     );
                   }
                 });
@@ -63,7 +64,7 @@ class AddSalesPageState extends State<AddSalesPage> {
                     Get.snackbar(
                       "خطأ",
                       "لم يتم تحديد أي صورة.",
-                      snackPosition: SnackPosition.BOTTOM,
+                      snackPosition: SnackPosition.TOP,
                     );
                   }
                 });
@@ -82,7 +83,7 @@ class AddSalesPageState extends State<AddSalesPage> {
       Get.snackbar(
         "خطأ",
         "يرجى اختيار صورة أولاً.",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
@@ -110,13 +111,14 @@ class AddSalesPageState extends State<AddSalesPage> {
       PointTransaction transaction = PointTransaction(
         refId: DateTime.now().millisecondsSinceEpoch,
         userName: userName,
-        notes: "طلب اضافة مبيعات \n ${_notesController.text}",
+        notes: "طلب اضافة مبيعات ",
+        userNotes: _notesController.text,
         pointBalance: pointBalance,
         points: 0,
         createdOn: DateTime.now(),
-        type: "sales",
+        type: "SALES",
         posName: posName,
-        status: "Under_process",
+        status: "UNDER_PROCESS",
         userUid: userUid,
         imageUrl: imageUrl,
         isChecked: false,
@@ -222,14 +224,6 @@ class AddSalesPageState extends State<AddSalesPage> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                "عند تسجيل المبيعات، يرجى التأكد من توفر رقم الفاتورة وتاريخ إصدارها حتى نتمكن من معالجتها بشكل صحيح.",
-                style: TextStyle(fontSize: 13),
-                textAlign: TextAlign.center,
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextFormField(
@@ -242,18 +236,22 @@ class AddSalesPageState extends State<AddSalesPage> {
                 ),
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                "عند تسجيل المبيعات، يرجى التأكد من توفر رقم الفاتورة وتاريخ إصدارها حتى نتمكن من معالجتها بشكل صحيح.",
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            ),
             const SizedBox(height: 16.0),
             if (isUploading)
               const CircularProgressIndicator()
             else
-              ElevatedButton.icon(
-                onPressed: uploadSale,
-                icon: const Icon(Icons.cloud_upload),
-                label: const Text('إرسال'),
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                  backgroundColor: Colors.teal,
+              SizedBox(
+                width: 220,
+                child: MyButton(
+                  onTap: uploadSale,
+                  title: 'إرسال',
                 ),
               ),
             const SizedBox(height: 16.0),

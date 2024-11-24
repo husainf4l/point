@@ -13,11 +13,13 @@ class PointTransaction {
   final bool isChecked;
   final String? checkedBy;
   final String notes;
+  final String userNotes;
 
   final DateTime updatedOn;
 
   PointTransaction({
     required this.refId,
+    required this.userNotes,
     required this.currentPoints,
     required this.userName,
     required this.points,
@@ -50,6 +52,7 @@ class PointTransaction {
       'userUid': userUid,
       'imageUrl': imageUrl,
       'isChecked': isChecked,
+      'userNotes': userNotes,
       'checkedBy': checkedBy,
       'updatedOn': updatedOn.toIso8601String(),
     };
@@ -59,6 +62,7 @@ class PointTransaction {
   factory PointTransaction.fromFirestoreMap(Map<String, dynamic> data) {
     return PointTransaction(
       refId: data['refId'] as int,
+      userNotes: data['userNotes'] as String,
       notes: data['notes'] as String,
       userName: data['userName'] as String,
       points: (data['points'] as num).toDouble(),

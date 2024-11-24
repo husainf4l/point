@@ -4,6 +4,7 @@ import 'package:points/class/blog_model.dart';
 import 'package:points/components/app_bar_theme.dart';
 import 'package:points/components/blog_card_small.dart';
 import 'package:points/components/horizantal_brand.dart';
+import 'package:points/components/my_button.dart';
 import 'package:points/controllers/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:points/controllers/bottom_nav_controller.dart';
@@ -119,23 +120,23 @@ class MainPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              navController
-                                  .changeIndex(1); // Navigate to "About Us"
+                          GestureDetector(
+                            onTap: () {
+                              navController.changeIndex(1);
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.teal,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                            ),
-                            child: const Text("صرف النقاط"),
+                            child: Container(
+                                width: 90,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Center(
+                                    child: Text(
+                                  "صرف النقاط",
+                                  style: TextStyle(color: Colors.teal),
+                                ))),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 12),
                           Text(
                             "${userData?['pointBalance'] / 10} JOD",
                             style: const TextStyle(
@@ -159,7 +160,7 @@ class MainPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "حسب العلامو التجارية",
+                    "منتجاتنا",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -171,11 +172,11 @@ class MainPage extends StatelessWidget {
                     },
                     child: const Row(
                       children: [
-                        Text('جميع الاصناف'),
+                        Text('جميع المنتجات'),
                         SizedBox(
                           width: 3,
                         ),
-                        Icon(Icons.align_vertical_center_rounded),
+                        Icon(Icons.filter_list_rounded),
                       ],
                     ),
                   ),
@@ -188,34 +189,19 @@ class MainPage extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Latest Blog Section
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "أحدث الإعلانات",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "أحدث الإعلانات",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed('blogs');
-                    },
-                    child: const Row(
-                      children: [
-                        Text('المزيد'),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Icon(Icons.align_vertical_center_rounded),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                  ]),
             ),
 
             const SizedBox(height: 8),
@@ -232,7 +218,7 @@ class MainPage extends StatelessWidget {
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                   return const Center(
                     child: Text(
-                      "لا توجد مدونات متوفرة حالياً.",
+                      "لا توجد اعلانات متوفرة حالياً.",
                       style: TextStyle(fontSize: 16),
                     ),
                   );

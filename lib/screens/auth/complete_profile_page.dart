@@ -30,7 +30,6 @@ class CompleteProfilePage extends StatelessWidget {
         },
         'fcmToken': "",
         'pointBalance': 20,
-        'lastSeen': Timestamp.now(),
         'createdAt': Timestamp.now(),
         "userUid": uid,
       });
@@ -59,7 +58,7 @@ class CompleteProfilePage extends StatelessWidget {
       Get.snackbar(
         "Error",
         "Failed to save profile. Please try again.",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
   }

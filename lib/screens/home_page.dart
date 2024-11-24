@@ -29,40 +29,53 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     final BottomNavController navController = Get.put(BottomNavController());
 
-    return Scaffold(
-      body: Obx(() => _pages[navController.selectedIndex.value]),
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-            currentIndex: navController.selectedIndex.value,
-            onTap: (index) {
-              navController.changeIndex(index);
-              refreshUserData();
-            },
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.post_add),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.credit_card),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.history),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.info_outline),
-                label: '',
-              ),
-            ],
-            selectedItemColor: Colors.teal,
-            unselectedItemColor: Colors.grey,
-          )),
+    return PopScope(
+      canPop: false, // Prevents the default back navigation
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) {
+          return;
+        }
+        if (navController.selectedIndex.value != 2) {
+          navController.changeIndex(2); // Navigate to MainPage (index 2)
+        } else {
+          return;
+        }
+      },
+      child: Scaffold(
+        body: Obx(() => _pages[navController.selectedIndex.value]),
+        bottomNavigationBar: Obx(() => BottomNavigationBar(
+              currentIndex: navController.selectedIndex.value,
+              onTap: (index) {
+                navController.changeIndex(index);
+                refreshUserData();
+              },
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.post_add),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.credit_card),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_outlined),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.history),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.info_outline),
+                  label: '',
+                ),
+              ],
+              selectedItemColor: Colors.teal,
+              unselectedItemColor: Colors.grey,
+            )),
+      ),
     );
   }
 }

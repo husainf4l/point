@@ -81,10 +81,6 @@ class BrandProductsPage extends StatelessWidget {
                     product.name,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Text(
-                    'Price: ${product.price.toStringAsFixed(2)} JD',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Get.toNamed(

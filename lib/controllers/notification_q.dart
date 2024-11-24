@@ -74,7 +74,7 @@ class NotificationController extends GetxController {
       Get.snackbar(
         "Error",
         "Failed to update notification: $e",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
   }
